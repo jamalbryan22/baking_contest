@@ -1,0 +1,64 @@
+<!--
+Name: Jamal Bryan
+Date: 12/04/2024
+Assignment: Module 14: Send Authenticated Message
+Due Date: 12/04/2024
+About this project:
+Solve a simple programming problem based on various approaches to computer security and information management.
+Build a small scale real-world application that incorporates the principles of secure computing including cryptography, network security, and data protection.
+Build small scale real-world applications using third-party Python libraries discussed in the course.
+Choose the best library for an application by examining the benefits of various libraries currently used by the industry.
+Apply Python towards several contemporary programming requirements and techniques involving secure, distributed, and parallel computing.
+Using Python and the hmac, hashlib, and pycryptodome libraries
+Assumptions:
+The application creates the database upon execution.
+In order to access all functionality you must sign in as a user with the highest security level (3)
+If you change the application secret key you must ensure they are consistent across the different servers, and it must be 16 bytes
+The create_baking_contest_db.py script has to be run first.
+All work below was performed by Jamal Bryan-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome, {{ username }}!</h1>
+
+        <!-- Logout Link -->
+        <a href="{{ url_for('logout') }}">Logout</a>
+
+        <!-- Conditional Links based on Security Level -->
+        <ul>
+            {% if security_level >= 1 %}
+                <li><a href="{{ url_for('my_results') }}">Show My Contest Entry Results</a></li>
+                <li><a href="{{ url_for('add_entry') }}">Add a Contest Entry</a></li>
+            {% endif %}
+
+            {% if security_level >= 2 %}
+            <li><a href="{{ url_for('submit_vote') }}">Submit a Baking Contest Entry Vote</a></li>
+            {% endif %}
+
+            {% if security_level == 3 %}
+                <li><a href="{{ url_for('add_user') }}">Add New Baking Contest User</a></li>
+            {% endif %}
+
+            {% if security_level >= 2 %}
+                <li><a href="{{ url_for('list_users') }}">List Baking Contest Users</a></li>
+            {% endif %}
+
+            {% if security_level == 3 %}
+                <li><a href="{{ url_for('contest_results') }}">Baking Contest Entry Results</a></li>
+            {% endif %}
+
+            {% if security_level == 3 %}
+                <li><a href="{{ url_for('send_delete_message') }}">Send a Message to Delete Baking Contest Entry using HMAC with Encryption</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</body>
+</html>
